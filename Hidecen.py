@@ -30,6 +30,8 @@ def encode_file():
                     image_path = line.strip()
                     upload = anon.upload(image_path, progressbar=True)
                     links_file.write(f"{upload.url.geturl()} {image_path}\n")
+                    os.remove(image_path)
+        os.remove(f"{filename}.txt")
     if not error:
         print("The files have been successfully encoded and uploaded!")
 def decode_file(original_filename):
@@ -71,7 +73,6 @@ def process_file(filename):
         decode_file(original_filename)
 def on_select(event):
     process_file(listbox.get(listbox.curselection()[0]) + '_links.txt')
-
 def load_gallery():
     for i in range(listbox.size()):
         process_file(listbox.get(i) + '_links.txt')
@@ -106,4 +107,5 @@ listbox.pack(anchor='w')
 listbox.config(width=60,height=38)
 listbox.bind('<<ListboxSelect>>', on_select)
 update_listbox()
+tk.Button(root, text="Settings", command=lambda: print("Settings")).place(relx=1.0, rely=0.0, anchor='ne')
 root.mainloop()
