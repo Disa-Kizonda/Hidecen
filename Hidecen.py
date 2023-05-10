@@ -4,7 +4,7 @@ import numpy as np
 from PIL import ImageTk,Image
 from anonfile import AnonFile
 from pathlib import Path
-import re,struct,os,random
+import re,struct,os,random,uuid
 from urllib.parse import unquote
 api_list = [
 	"https://api.letsupload.cc/",
@@ -34,18 +34,20 @@ def encode_file():
         image = np.frombuffer(file_bytes + b"\0" * num_padding_bytes, dtype=np.uint8).reshape((-1, int(image_size.get())))
         with open(f"{filename}.txt", "w") as text_file:
             for i in range(0, image.shape[0], int(image_size.get())):
-                image_name = f"{filename}.{i//int(image_size.get())}.png"
+                image_name = f"{str(uuid.uuid4())}.png"
                 Image.fromarray(image[i:i+int(image_size.get())], "L").save(image_name)
                 text_file.write(f"{image_name}\n")
         with open(f"{filename}_links.txt", "w") as links_file:
             with open(f"{filename}.txt", "r") as text_file:
+                index = 0
                 for line in text_file:
                     AnonFile.API = random.choice(api_list)
                     anon = AnonFile()
                     image_path = line.strip()
                     upload = anon.upload(image_path, progressbar=True)
-                    links_file.write(f"{upload.url.geturl()} {image_path}\n")
+                    links_file.write(f"{upload.url.geturl()} {filename}.{index}.png\n")
                     os.remove(image_path)
+                    index += 1
         os.remove(f"{filename}.txt")
     if not error:
         print("The files have been successfully encoded and uploaded!")
