@@ -44,7 +44,12 @@ def encode_file():
                     AnonFile.API = random.choice(api_list)
                     anon = AnonFile()
                     image_path = line.strip()
-                    upload = anon.upload(image_path, progressbar=True)
+                    while True:
+                        try:
+                            upload = anon.upload(image_path, progressbar=True)
+                            break
+                        except Exception as e:
+                            print(f"Error uploading file: {e}. Retrying...")
                     links_file.write(f"{upload.url.geturl()} {filename}.{index}.png\n")
                     os.remove(image_path)
                     index += 1
