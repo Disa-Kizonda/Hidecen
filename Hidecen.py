@@ -11,7 +11,6 @@ api_list = [
 	"https://api.filechan.org/",
 	"https://api.anonfiles.com/",
 	"https://api.megaupload.nz/",
-	"https://api.share-online.is/",
 	"https://api.zippysha.re/",
 	"https://api.vshare.is/",
 	"https://api.rapidshare.nu/",
