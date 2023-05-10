@@ -2,4 +2,4 @@
 not finished
 
 
-Upload your files with more security
+Upload and share your files with more security
