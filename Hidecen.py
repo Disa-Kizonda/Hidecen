@@ -7,7 +7,7 @@ from pathlib import Path
 import re,struct,os,random
 from urllib.parse import unquote
 api_list = [
-    "https://api.letsupload.cc/",
+	"https://api.letsupload.cc/",
 	"https://api.filechan.org/",
 	"https://api.anonfiles.com/",
 	"https://api.megaupload.nz/",
