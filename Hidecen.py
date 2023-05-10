@@ -4,10 +4,23 @@ import numpy as np
 from PIL import ImageTk,Image
 from anonfile import AnonFile
 from pathlib import Path
-import re,struct,os
+import re,struct,os,random
 from urllib.parse import unquote
+api_list = [
+    "https://api.letsupload.cc/",
+	"https://api.filechan.org/",
+	"https://api.anonfiles.com/",
+	"https://api.megaupload.nz/",
+	"https://api.share-online.is/",
+	"https://api.zippysha.re/",
+	"https://api.vshare.is/",
+	"https://api.rapidshare.nu/",
+	"https://api.myfile.is/",
+	"https://api.hotfile.io/",
+	"https://api.upvid.cc/",
+	"https://api.lolabits.se/"
+	]
 def encode_file():
-    anon = AnonFile()
     error = False
     for filepath in filedialog.askopenfilenames():
         filename = os.path.basename(filepath)
@@ -28,6 +41,8 @@ def encode_file():
         with open(f"{filename}_links.txt", "w") as links_file:
             with open(f"{filename}.txt", "r") as text_file:
                 for line in text_file:
+                    AnonFile.API = random.choice(api_list)
+                    anon = AnonFile()
                     image_path = line.strip()
                     upload = anon.upload(image_path, progressbar=True)
                     links_file.write(f"{upload.url.geturl()} {image_path}\n")
