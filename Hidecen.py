@@ -89,7 +89,12 @@ def process_file(filename):
     else:
         anon = AnonFile()
         for i, url in enumerate(links):
-            download_response = anon.download(url, path=target_dir)
+            while True:
+                try:
+                    download_response = anon.download(url, path=target_dir)
+                    break
+                except Exception as e:
+                    print(f"Error downloading file: {e}. Retrying...")
             old_filename = get_last_created_file(target_dir)
             new_filename = f"{decoded_file_path}.{i}.png"
             os.rename(old_filename, new_filename)
